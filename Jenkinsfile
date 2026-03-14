@@ -9,37 +9,18 @@ pipeline {
         }
 
         stage('Setup pnpm') {
-      steps {
-        sh 'pnpm -v'
-        sh "npm install -g pnpm@${PNPM_VERSION}"
-      }
+          steps {
+            sh 'pnpm -v'
+          }
         }
-
-      //   stage('Install Dependencies') {
-      // steps {
-      //   sh 'pnpm install --frozen-lockfile'
-      // }
-      //   }
-
-      //   stage('Lint') {
-      // steps {
-      //   sh 'pnpm lint'
-      // }
-      //   }
-
-    //   stage('Build') {
-    // steps {
-    //   sh 'pnpm build'
-    // }
-    //   }
     }
 
     post {
         success {
-      echo 'Pipeline completed successfully.'
+          echo 'Pipeline completed successfully.'
         }
         failure {
-      echo 'Pipeline failed.'
+          echo 'Pipeline failed.'
         }
     }
 }
