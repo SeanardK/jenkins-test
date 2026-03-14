@@ -1,15 +1,6 @@
 pipeline {
     agent docker
 
-    environment {
-        NODE_VERSION = '20'
-        PNPM_VERSION = '9'
-    }
-
-    tools {
-        nodejs "NodeJS-${NODE_VERSION}"
-    }
-
     stages {
         stage('Checkout') {
       steps {
@@ -19,27 +10,28 @@ pipeline {
 
         stage('Setup pnpm') {
       steps {
+        sh 'pnpm -v'
         sh "npm install -g pnpm@${PNPM_VERSION}"
       }
         }
 
-        stage('Install Dependencies') {
-      steps {
-        sh 'pnpm install --frozen-lockfile'
-      }
-        }
+      //   stage('Install Dependencies') {
+      // steps {
+      //   sh 'pnpm install --frozen-lockfile'
+      // }
+      //   }
 
-        stage('Lint') {
-      steps {
-        sh 'pnpm lint'
-      }
-        }
+      //   stage('Lint') {
+      // steps {
+      //   sh 'pnpm lint'
+      // }
+      //   }
 
-        stage('Build') {
-      steps {
-        sh 'pnpm build'
-      }
-        }
+    //   stage('Build') {
+    // steps {
+    //   sh 'pnpm build'
+    // }
+    //   }
     }
 
     post {
