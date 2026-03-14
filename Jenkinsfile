@@ -1,18 +1,18 @@
 pipeline {
   agent any
 
-  parameters {
-    booleanParam(name: 'DEPLOY', defaultValue: false, description: 'If true, run container after build')
-  }
-
   stages {
-    stage('Checkout') {
-      steps { checkout scm }
-    }
-
     stage('Setup pnpm') {
       steps {
         sh 'pnpm -v || npm install -g pnpm'
+      }
+    }
+
+    stage('Prepare .env') {
+      steps {
+        withCredentials([file(credentialsId: 'graphql-book_library_env', variable: 'ENV_FILE')]) {
+          sh 'cp $ENV_FILE .env'
+        }
       }
     }
 
@@ -41,7 +41,6 @@ pipeline {
     }
 
     stage('Docker Deploy') {
-      when { expression { return params.DEPLOY == true } }
       steps {
         sh 'docker compose up -d --build'
       }
